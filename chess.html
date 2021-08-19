@@ -28,10 +28,25 @@
 
 
             <div class="col">
-                <div id="board"  style="width: 500px"></div>
+                <div id="board"  style="width: 450px"></div>
+            </div> 
+            
+            <div class="col">
+
                 <button type="button" class="m-3 btn btn-primary" id="flipboard">Flip Board</button>
                 <button type="button" class="m-3 btn btn-primary" id="clearboard">Start Position</button>
-            </div>     
+                <button type="button" class="m-3 btn btn-primary" id="savefen">Save Position</button>
+
+                <table id='fentable' class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">FEN</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tablerow"></tbody>
+                  </table>
+            </div> 
             
             
         </div>
@@ -55,18 +70,52 @@
 <script>
 
 
+    let i=0;
+
     var config = {
-    draggable: true,
-    dropOffBoard: 'snapback', // this is the default
-    position: 'start',
-    orientation: 'white'
+        draggable: true,
+        // dropOffBoard: 'snapback', // this is the default
+        position: 'start',
+        orientation: 'white',
+        dropOffBoard: 'trash',
+        sparePieces: true
     }
     
     var board = Chessboard('board', config);
 
 
+
+    function savefen () {
+    
+    // Save Current position as a FEN string
+
+        let FEN=board.fen();
+
+
+
+        let tr ='<tr>\
+                     <th scope="row" data-FEN='+FEN+'>'+
+                        '<a href="#">'+'fen-'+(++i)+
+                        '</th>\
+                    <td>'+board.fen()+'</td>\
+                </tr>'
+                      
+        $('#tablerow').append(tr)
+    }
+
+
+
     $('#flipboard').on('click', board.flip)
     $('#clearboard').on('click', board.start)
+    $('#savefen').on('click', savefen)
+
+    // load the board position if move is clicked
+    $("#fentable").on("click", "th", function() { 
+        
+        var move_fen = $(this).data().fen
+        board.position(move_fen)
+       
+    })
 
 </script>
 
