@@ -34,7 +34,8 @@
             <div class="col">
 
                 <button type="button" class="m-3 btn btn-primary" id="flipboard">Flip Board</button>
-                <button type="button" class="m-3 btn btn-primary" id="clearboard">Start Position</button>
+                <button type="button" class="m-3 btn btn-primary" id="startboard">Start</button>
+                <button type="button" class="m-3 btn btn-primary" id="clearboard">Clear</button>
                 <button type="button" class="m-3 btn btn-primary" id="savefen">Save Position</button>
 
                 <table id='fentable' class="table table-striped">
@@ -106,12 +107,13 @@
 
 
     $('#flipboard').on('click', board.flip)
-    $('#clearboard').on('click', board.start)
+    $('#startboard').on('click', board.start)
+    $('#clearboard').on('click', board.clear)
     $('#savefen').on('click', savefen)
 
     // load the board position if move is clicked
     $("#fentable").on("click", "th", function() { 
-        
+
         var move_fen = $(this).data().fen
         board.position(move_fen)
        
