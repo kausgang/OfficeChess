@@ -42,7 +42,7 @@
                     <thead>
                       <tr>
                         <th scope="col">#</th>
-                        <th scope="col">FEN</th>
+                        <th scope="col">Name/FEN</th>
                       </tr>
                     </thead>
                     <tbody id="tablerow"></tbody>
@@ -88,9 +88,30 @@
 
     function savefen () {
     
-    // Save Current position as a FEN string
+
+        // Save Current position as a FEN string
 
         let FEN=board.fen();
+
+        //check if user wants to give a name to the fen
+        let name = prompt("Want to give a Name: ");
+        
+
+        let name_fen=''
+
+        // if name is entered, add name to the FEN string
+        if(name){
+
+            name_fen=name
+            console.log(name_fen)
+            
+        }
+            
+        else
+            name_fen=FEN
+
+
+
 
 
 
@@ -98,7 +119,7 @@
                      <th scope="row" data-FEN='+FEN+'>'+
                         '<a href="#">'+'fen-'+(++i)+
                         '</th>\
-                    <td>'+board.fen()+'</td>\
+                    <td>'+name_fen+'</td>\
                 </tr>'
                       
         $('#tablerow').append(tr)
@@ -111,7 +132,7 @@
     $('#clearboard').on('click', board.clear)
     $('#savefen').on('click', savefen)
 
-    // load the board position if move is clicked
+    // load the board position if fen hyperlink is clicked
     $("#fentable").on("click", "th", function() { 
 
         var move_fen = $(this).data().fen
