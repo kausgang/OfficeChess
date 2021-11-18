@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OfficeChess</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+      integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
+      crossorigin="anonymous"
+    />
+
+    <!-- ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <!-- BOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div id="board" style="width: 450px"></div>
+        </div>
+
+        <div class="col">
+          <button type="button" class="m-2 btn btn-primary" id="savefen">
+            Save
+          </button>
+          <button type="button" class="m-2 btn btn-primary" id="startboard">
+            Start
+          </button>
+          <button type="button" class="m-2 btn btn-primary" id="clearboard">
+            Clear
+          </button>
+          <button type="button" class="m-2 btn btn-primary" id="flipboard">
+            Flip
+          </button>
+
+          <a
+            href="../LandingPage.html"
+            class="m-2 btn btn-primary"
+            role="button"
+            >Back</a
+          >
+
+          <table id="fentable" class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name/FEN</th>
+              </tr>
+            </thead>
+            <tbody id="tablerow"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+    crossorigin="anonymous"
+  ></script>
+
+  <script
+    src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+    integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    let i = 0;
+
+    var config = {
+      draggable: true,
+      // dropOffBoard: 'snapback', // this is the default
+      position: "start",
+      orientation: "white",
+      dropOffBoard: "trash",
+      sparePieces: true,
+    };
+
+    var board = Chessboard("board", config);
+
+    function savefen() {
+      // Save Current position as a FEN string
+
+      let FEN = board.fen();
+
+      //check if user wants to give a name to the fen
+      let name = prompt("Want to give a Name: ");
+
+      let name_fen = "";
+
+      // if name is entered, add name to the FEN string
+      if (name) name_fen = name;
+      else name_fen = FEN;
+
+      let tr =
+        '<tr>\
+                     <th scope="row" data-FEN=' +
+        FEN +
+        ">" +
+        '<a href="#">' +
+        "fen-" +
+        ++i +
+        "</th>\
+                    <td>" +
+        name_fen +
+        '</td>\
+                    <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
+                </tr>';
+
+      $("#tablerow").append(tr);
+    }
+
+    $("#flipboard").on("click", board.flip);
+    $("#startboard").on("click", board.start);
+    $("#clearboard").on("click", board.clear);
+    $("#savefen").on("click", savefen);
+
+    // load the board position if fen hyperlink is clicked
+    $("#fentable").on("click", "th", function () {
+      var move_fen = $(this).data().fen;
+      board.position(move_fen);
+    });
+
+    // Delete row on delete button click
+    $(document).on("click", ".delete", function () {
+      $(this).parents("tr").remove();
+    });
+  </script>
+</html>

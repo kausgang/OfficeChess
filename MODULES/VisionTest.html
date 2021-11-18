@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VisionTest</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+      integrity="sha384-q94+BZtLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCvQjzL2RQJ3uNHDISdU"
+      crossorigin="anonymous"
+    />
+
+    <!-- ICONS -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <!-- BOTSTRAP -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div id="board" style="width: 450px; margin: 20px"></div>
+        </div>
+
+        <div class="m-4 col flex" style="justify-content: center">
+          <button type="button" class="m-2 btn btn-primary" id="startgame">
+            Start
+          </button>
+          <button type="button" class="m-2 btn btn-primary" id="stopgame">
+            Stop
+          </button>
+          <button type="button" class="m-2 btn btn-primary" id="flipboard">
+            Flip
+          </button>
+
+          <a
+            href="../LandingPage.html"
+            class="m-2 btn btn-primary"
+            role="button"
+            >Back</a
+          >
+          <br />
+          <p
+            id="question"
+            class="d-flex justify-content-center"
+            style="font-size: 100px; font-weight: bolder; color: steelblue"
+          ></p>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+    crossorigin="anonymous"
+  ></script>
+
+  <script
+    src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+    integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    let i = 0;
+
+    var config = {
+      draggable: false,
+      dropOffBoard: "trash", // this is the default
+      position: "empty",
+      orientation: "white",
+      sparePieces: true,
+    };
+
+    var board = Chessboard("board", config);
+
+    //disable the stop button in the beginning
+    $("#stopgame").addClass("disabled");
+
+    // flip button
+    $("#flipboard").on("click", board.flip);
+
+    //stop button
+    $("#stopgame").on("click", () => {
+      $("#stopgame").addClass("disabled");
+      $("#startgame").removeClass("disabled");
+      //remove question
+      $("#question").html("");
+    });
+
+    //start game
+    $("#startgame").on("click", startgame);
+    function startgame() {
+      // disable start button and enable stop button
+      $("#startgame").addClass("disabled");
+      $("#stopgame").removeClass("disabled");
+
+      //change question
+      $("#question").html(random_square());
+    }
+
+    // find the square on which clicked
+    // https://github.com/oakmac/chessboardjs/issues/85
+    function clickOnSquare(evt) {
+      var square = $(this).data("square");
+      console.log("You clicked on square: " + square);
+
+      //check if the quesre clicked is same as the question
+      var question = $("#question").html();
+      if (question === square) {
+        //change the question
+        $("#question").html(random_square());
+        $("#question").css("color", "steelblue");
+      }
+      //if wrong answer , make the question red
+      else {
+        if ($("#question").html() != "") $("#question").css("color", "red");
+      }
+    }
+    $("#board").on("click", ".square-55d63", clickOnSquare);
+
+    // generate random square
+    function random_square() {
+      const row = ["a", "b", "c", "d", "e", "f", "g", "h"];
+      const file = [1, 2, 3, 4, 5, 6, 7, 8];
+      max = 8;
+      min = 1;
+      var randomrow = Math.floor(Math.random() * (max - min + 1)) + min;
+      var randomfile = Math.floor(Math.random() * (max - min + 1)) + min;
+      var randomsquare = row[randomrow - 1] + "" + file[randomfile - 1];
+
+      return randomsquare;
+    }
+  </script>
+</html>
