@@ -37,7 +37,7 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <div id="board" style="width: 450px; margin: 20px"></div>
+          <div id="board" style="width: 450px; margin: 10px"></div>
         </div>
 
         <div class="m-4 col flex" style="justify-content: center">
@@ -85,10 +85,11 @@
 
     var config = {
       draggable: false,
-      dropOffBoard: "trash", // this is the default
+      dropOffBoard: "trash",
       position: "empty",
       orientation: "white",
       sparePieces: true,
+      showNotation: false,
     };
 
     var board = Chessboard("board", config);
