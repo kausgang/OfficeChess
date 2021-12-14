@@ -201,7 +201,17 @@
       //   console.log(data);
       // });
 
-      alert("import won't work if you are not running this on a webserver");
+      // alert("import won't work if you are not running this on a webserver");
+
+      fetch(filename)
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (data) {
+          // var table_container = document.getElementById("table-container");
+          // csv_string_to_table(data, table_container);
+          console.log(data);
+        });
     };
 
     function tableToCSV() {
