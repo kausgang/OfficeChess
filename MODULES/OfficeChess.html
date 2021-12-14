@@ -197,9 +197,11 @@
 
       filename = $("#filename").val();
       // get the value of the csv file
-      jQuery.get(filename, (data) => {
-        console.log(data);
-      });
+      // jQuery.get(filename, (data) => {
+      //   console.log(data);
+      // });
+
+      alert("import won't work if you are not running this on a webserver");
     };
 
     function tableToCSV() {
