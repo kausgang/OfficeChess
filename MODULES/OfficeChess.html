@@ -41,25 +41,60 @@
         </div>
 
         <div class="col">
-          <button type="button" class="m-2 btn btn-primary" id="savefen">
-            Save
-          </button>
-          <button type="button" class="m-2 btn btn-primary" id="startboard">
-            Start
-          </button>
-          <button type="button" class="m-2 btn btn-primary" id="clearboard">
-            Clear
-          </button>
-          <button type="button" class="m-2 btn btn-primary" id="flipboard">
-            Flip
-          </button>
+          <div class="btn-toolbar justify-content-center" role="toolbar">
+            <div class="btn-group mr-2 mt-2" role="group">
+              <button type="button" class="btn btn-primary" id="savefen">
+                Save
+              </button>
+              <button type="button" class="btn btn-primary" id="startboard">
+                Start
+              </button>
+              <button type="button" class="btn btn-primary" id="clearboard">
+                Clear
+              </button>
+              <button type="button" class="btn btn-primary" id="flipboard">
+                Flip
+              </button>
+            </div>
+            <div class="btn-group ml-2 mt-2" role="group">
+              <button
+                class="btn btn-outline-primary"
+                type="button"
+                onclick="location.href='../LandingPage.html'"
+              >
+                Back
+              </button>
+            </div>
+            <div class="btn-group m-2" role="group">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="export"
+                onclick="exportTable()"
+              >
+                Export
+              </button>
+              <input type="file" class="form-control" id="filename" />
+              <!-- </input> -->
+              <div class="input-group-append">
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  id="import"
+                  onclick="importTable()"
+                >
+                  Import
+                </button>
+              </div>
 
-          <a
-            href="../LandingPage.html"
-            class="m-2 btn btn-primary"
-            role="button"
-            >Back</a
-          >
+              <!-- <a
+                href="../LandingPage.html"
+                class="m-1 btn btn-primary"
+                role="button"
+                >Back</a
+              > -->
+            </div>
+          </div>
 
           <table id="fentable" class="table table-striped">
             <thead>
@@ -148,5 +183,79 @@
     $(document).on("click", ".delete", function () {
       $(this).parents("tr").remove();
     });
+
+    // export table
+    exportTable = () => {
+      console.log("exporting");
+      tableToCSV();
+    };
+
+    importTable = () => {
+      // https://wickedev.com/javascript-to-parse-a-csv-file-and-convert-it-into-an-html-table/
+
+      // Using XMLHttpRequest().
+
+      filename = $("#filename").val();
+      // get the value of the csv file
+      jQuery.get(filename, (data) => {
+        console.log(data);
+      });
+    };
+
+    function tableToCSV() {
+      // Variable to store the final csv data
+      var csv_data = [];
+
+      // Get each row data
+      var rows = document.getElementsByTagName("tr");
+
+      for (var i = 1; i < rows.length; i++) {
+        // Get each column data
+        var cols = rows[i].querySelectorAll("td,th");
+
+        // Stores each csv row data
+        var csvrow = [];
+        for (var j = 0; j < cols.length; j++) {
+          // Get the text data of each cell of
+          // a row and push it to csvrow
+          csvrow.push(cols[j].innerHTML);
+        }
+
+        // Combine each column value with comma
+        csv_data.push(csvrow.join(","));
+      }
+      // combine each row data with new line character
+      csv_data = csv_data.join("\n");
+
+      /* We will use this function later to download
+the data in a csv file downloadCSVFile(csv_data);
+*/
+
+      downloadCSVFile(csv_data);
+    }
+
+    function downloadCSVFile(csv_data) {
+      // Create CSV file object and feed our
+      // csv_data into it
+      CSVFile = new Blob([csv_data], { type: "text/csv" });
+
+      // Create to temporary link to initiate
+      // download process
+      var temp_link = document.createElement("a");
+
+      // Download csv file
+      // temp_link.download = "FEN.csv";
+      temp_link.download = "";
+      var url = window.URL.createObjectURL(CSVFile);
+      temp_link.href = url;
+
+      // This link should not be displayed
+      temp_link.style.display = "none";
+      document.body.appendChild(temp_link);
+
+      // Automatically click the link to trigger download
+      temp_link.click();
+      document.body.removeChild(temp_link);
+    }
   </script>
 </html>
