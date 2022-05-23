@@ -87,13 +87,14 @@ function onDragStart(source, piece, position, orientation) {
 // update the board position after the piece snap
 // for castling, en passant, pawn promotion
 function onSnapEnd() {
-  board.position(game.fen());
+  if (validation_on) board.position(game.fen());
 }
 const change_validation = () => {
   if (validation_on) {
     $("#validation").attr("class", "btn btn-danger disabled");
     $("#validation").html("Validation - OFF");
     validation_on = false;
+    $("#san_moves").append("VALIDATION TURNED OFF");
   } else {
     $("#validation").attr("class", "btn btn-success");
     $("#validation").html("Validation - ON");
