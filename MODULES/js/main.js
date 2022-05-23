@@ -25,9 +25,9 @@ function savefen() {
   let FEN = board.fen();
 
   //check if user wants to give a name to the fen
-  //   let name = prompt("Want to give a Name: ");
+  let name = prompt("Want to give a Name: ");
 
-  //   let name_fen = "";
+  let name_fen = "";
 
   // if name is entered, add name to the FEN string
   //   if (name) name_fen = name;
@@ -35,20 +35,34 @@ function savefen() {
   if (validation_on) name_fen = game.pgn();
   else name_fen = FEN;
 
+  //   let tr =
+  //     '<tr>\
+  //                      <th scope="row" data-FEN=' +
+  //     FEN +
+  //     ">" +
+  //     '<a href="#">' +
+  //     "fen-" +
+  //     ++i +
+  //     "</th>\
+  //                     <td>" +
+  //     name_fen +
+  //     '</td>\
+  //                     <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
+  //                 </tr>';
+
   let tr =
     '<tr>\
-                     <th scope="row" data-FEN=' +
+                 <th scope="row" data-FEN=' +
     FEN +
     ">" +
     '<a href="#">' +
-    "fen-" +
-    ++i +
+    name +
     "</th>\
-                    <td>" +
+                <td>" +
     name_fen +
     '</td>\
-                    <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
-                </tr>';
+                <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
+            </tr>';
 
   $("#tablerow").append(tr);
 }
