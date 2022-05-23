@@ -14,7 +14,7 @@ var config = {
   sparePieces: true,
   onDragStart: onDragStart,
   onDrop: onDrop,
-  //   onSnapEnd: onSnapEnd,
+  onSnapEnd: onSnapEnd,
 };
 
 var board = Chessboard("board", config);
@@ -84,6 +84,11 @@ function onDragStart(source, piece, position, orientation) {
   }
 }
 
+// update the board position after the piece snap
+// for castling, en passant, pawn promotion
+function onSnapEnd() {
+  board.position(game.fen());
+}
 const change_validation = () => {
   if (validation_on) {
     $("#validation").attr("class", "btn btn-danger disabled");
