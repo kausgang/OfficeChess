@@ -80,6 +80,8 @@
             </div>
           </div>
 
+          <p id="san_moves" class="p-2"></p>
+          <br />
           <table id="fentable" class="table table-striped">
             <thead>
               <tr>
@@ -108,152 +110,142 @@
 
   <script src="./js/main.js"></script>
   <script>
-    let i = 0;
+    // let i = 0;
 
-    var config = {
-      draggable: true,
-      // dropOffBoard: 'snapback', // this is the default
-      position: "start",
-      orientation: "white",
-      dropOffBoard: "trash",
-      sparePieces: true,
-      onDrop: onDrop,
-    };
+    // var config = {
+    //   draggable: true,
+    //   // dropOffBoard: 'snapback', // this is the default
+    //   position: "start",
+    //   orientation: "white",
+    //   dropOffBoard: "trash",
+    //   sparePieces: true,
+    //   onDrop: onDrop,
+    // };
 
-    var board = Chessboard("board", config);
+    // var board = Chessboard("board", config);
 
-    function savefen() {
-      // Save Current position as a FEN string
+    // function savefen() {
+    //   // Save Current position as a FEN string
 
-      let FEN = board.fen();
+    //   let FEN = board.fen();
 
-      //check if user wants to give a name to the fen
-      let name = prompt("Want to give a Name: ");
+    //   //check if user wants to give a name to the fen
+    //   let name = prompt("Want to give a Name: ");
 
-      let name_fen = "";
+    //   let name_fen = "";
 
-      // if name is entered, add name to the FEN string
-      if (name) name_fen = name;
-      else name_fen = FEN;
+    //   // if name is entered, add name to the FEN string
+    //   if (name) name_fen = name;
+    //   else name_fen = FEN;
 
-      let tr =
-        '<tr>\
-                         <th scope="row" data-FEN=' +
-        FEN +
-        ">" +
-        '<a href="#">' +
-        "fen-" +
-        ++i +
-        "</th>\
-                        <td>" +
-        name_fen +
-        '</td>\
-                        <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
-                    </tr>';
+    //   let tr =
+    //     '<tr>\
+    //                      <th scope="row" data-FEN=' +
+    //     FEN +
+    //     ">" +
+    //     '<a href="#">' +
+    //     "fen-" +
+    //     ++i +
+    //     "</th>\
+    //                     <td>" +
+    //     name_fen +
+    //     '</td>\
+    //                     <td><a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons"></i></a></td>\
+    //                 </tr>';
 
-      $("#tablerow").append(tr);
-    }
+    //   $("#tablerow").append(tr);
+    // }
 
-    $("#flipboard").on("click", board.flip);
-    $("#startboard").on("click", board.start);
-    $("#clearboard").on("click", board.clear);
-    $("#savefen").on("click", savefen);
+    // $("#flipboard").on("click", board.flip);
+    // $("#startboard").on("click", board.start);
+    // $("#clearboard").on("click", board.clear);
+    // $("#savefen").on("click", savefen);
 
-    // load the board position if fen hyperlink is clicked
-    $("#fentable").on("click", "th", function () {
-      var move_fen = $(this).data().fen;
-      board.position(move_fen);
-    });
+    // // load the board position if fen hyperlink is clicked
+    // $("#fentable").on("click", "th", function () {
+    //   var move_fen = $(this).data().fen;
+    //   board.position(move_fen);
+    // });
 
-    // Delete row on delete button click
-    $(document).on("click", ".delete", function () {
-      $(this).parents("tr").remove();
-    });
+    // // Delete row on delete button click
+    // $(document).on("click", ".delete", function () {
+    //   $(this).parents("tr").remove();
+    // });
 
-    // export table
-    exportTable = () => {
-      console.log("exporting");
-      tableToCSV();
-    };
+    // // // export table
+    // // exportTable = () => {
+    // //   console.log("exporting");
+    // //   tableToCSV();
+    // // };
 
-    importTable = () => {
-      // https://wickedev.com/javascript-to-parse-a-csv-file-and-convert-it-into-an-html-table/
+    // // importTable = () => {
+    // //   // https://wickedev.com/javascript-to-parse-a-csv-file-and-convert-it-into-an-html-table/
 
-      // Using XMLHttpRequest().
+    // //   // Using XMLHttpRequest().
 
-      filename = $("#filename").val();
-      // get the value of the csv file
-      // jQuery.get(filename, (data) => {
-      //   console.log(data);
-      // });
+    // //   // filename = $("#filename").val();
+    // //   // // get the value of the csv file
+    // //   // // jQuery.get(filename, (data) => {
+    // //   // //   console.log(data);
+    // //   // // });
 
-      // alert("import won't work if you are not running this on a webserver");
+    // //   // // alert("import won't work if you are not running this on a webserver");
 
-      fetch(filename)
-        .then(function (response) {
-          return response.text();
-        })
-        .then(function (data) {
-          // var table_container = document.getElementById("table-container");
-          // csv_string_to_table(data, table_container);
-          console.log(data);
-        });
-    };
+    // //   // fetch(filename)
+    // //   //   .then(function (response) {
+    // //   //     return response.text();
+    // //   //   })
+    // //   //   .then(function (data) {
+    // //   //     // var table_container = document.getElementById("table-container");
+    // //   //     // csv_string_to_table(data, table_container);
+    // //   //     console.log(data);
+    // //   //   });
+    // // };
 
-    function tableToCSV() {
-      // Variable to store the final csv data
-      var csv_data = [];
+    // function tableToCSV() {
+    //   //   // Variable to store the final csv data
+    //   //   var csv_data = [];
+    //   //   // Get each row data
+    //   //   var rows = document.getElementsByTagName("tr");
+    //   //   for (var i = 1; i < rows.length; i++) {
+    //   //     // Get each column data
+    //   //     var cols = rows[i].querySelectorAll("td,th");
+    //   //     // Stores each csv row data
+    //   //     var csvrow = [];
+    //   //     for (var j = 0; j < cols.length; j++) {
+    //   //       // Get the text data of each cell of
+    //   //       // a row and push it to csvrow
+    //   //       csvrow.push(cols[j].innerHTML);
+    //   //     }
+    //   //     // Combine each column value with comma
+    //   //     csv_data.push(csvrow.join(","));
+    //   //   }
+    //   //   // combine each row data with new line character
+    //   //   csv_data = csv_data.join("\n");
+    //   //   /* We will use this function later to download
+    //   // the data in a csv file downloadCSVFile(csv_data);
+    //   // */
+    //   //   downloadCSVFile(csv_data);
+    // }
 
-      // Get each row data
-      var rows = document.getElementsByTagName("tr");
-
-      for (var i = 1; i < rows.length; i++) {
-        // Get each column data
-        var cols = rows[i].querySelectorAll("td,th");
-
-        // Stores each csv row data
-        var csvrow = [];
-        for (var j = 0; j < cols.length; j++) {
-          // Get the text data of each cell of
-          // a row and push it to csvrow
-          csvrow.push(cols[j].innerHTML);
-        }
-
-        // Combine each column value with comma
-        csv_data.push(csvrow.join(","));
-      }
-      // combine each row data with new line character
-      csv_data = csv_data.join("\n");
-
-      /* We will use this function later to download
-    the data in a csv file downloadCSVFile(csv_data);
-    */
-
-      downloadCSVFile(csv_data);
-    }
-
-    function downloadCSVFile(csv_data) {
-      // Create CSV file object and feed our
-      // csv_data into it
-      CSVFile = new Blob([csv_data], { type: "text/csv" });
-
-      // Create to temporary link to initiate
-      // download process
-      var temp_link = document.createElement("a");
-
-      // Download csv file
-      // temp_link.download = "FEN.csv";
-      temp_link.download = "";
-      var url = window.URL.createObjectURL(CSVFile);
-      temp_link.href = url;
-
-      // This link should not be displayed
-      temp_link.style.display = "none";
-      document.body.appendChild(temp_link);
-
-      // Automatically click the link to trigger download
-      temp_link.click();
-      document.body.removeChild(temp_link);
-    }
+    // function downloadCSVFile(csv_data) {
+    //   // // Create CSV file object and feed our
+    //   // // csv_data into it
+    //   // CSVFile = new Blob([csv_data], { type: "text/csv" });
+    //   // // Create to temporary link to initiate
+    //   // // download process
+    //   // var temp_link = document.createElement("a");
+    //   // // Download csv file
+    //   // // temp_link.download = "FEN.csv";
+    //   // temp_link.download = "";
+    //   // var url = window.URL.createObjectURL(CSVFile);
+    //   // temp_link.href = url;
+    //   // // This link should not be displayed
+    //   // temp_link.style.display = "none";
+    //   // document.body.appendChild(temp_link);
+    //   // // Automatically click the link to trigger download
+    //   // temp_link.click();
+    //   // document.body.removeChild(temp_link);
+    // }
   </script>
 </html>
