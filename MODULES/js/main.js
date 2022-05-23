@@ -117,23 +117,6 @@ function onDrop(source, target, piece, newPos, oldPos, orientation) {
 
     updateStatus();
   }
-
-  //   let move = source + "-" + target;
-  //   if (validation_on) {
-  //     move_obj = game.move(move, { sloppy: true });
-  //     if (move_obj !== null) {
-  //       $("#san_moves").append(move_obj.san, ",");
-  //     } else {
-  //       old_fen = Chessboard.objToFen(oldPos);
-  //       go_back(old_fen);
-  //       //   alert("Invalid Move");
-  //       //   change_validation();
-  //       //   $("#validation").attr("class", "btn btn-danger disabled");
-  //       //   console.log(old_fen);
-  //       //   board.clear;
-  //       //   board.position(old_fen);
-  // }
-  //   }
 }
 
 function updateStatus() {
@@ -168,3 +151,10 @@ function updateStatus() {
   //   $fen.html(game.fen());
   $("#san_moves").html(game.pgn());
 }
+
+undo_move = () => {
+  game.undo();
+  board.position(game.fen());
+  updateStatus();
+};
+$("#undo").on("click", undo_move);
